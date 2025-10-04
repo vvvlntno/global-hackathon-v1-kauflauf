@@ -8,6 +8,7 @@ export interface DroppedItem {
   height: number;
   colorIndex: number;
   parentId?: string;
+  imageUrl?: string;
 }
 
 export interface Article {

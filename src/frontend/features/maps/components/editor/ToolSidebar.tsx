@@ -6,9 +6,11 @@ import Image from "next/image";
 import { Article } from "./types";
 import { supabase } from "@/lib/supabaseClient";
 
+/* 🔹 Draggable Tool Button (Section / Tray) */
 function ToolItem({ type, label }: { type: string; label: string }) {
   const [{ isDragging }, drag] = useDrag(() => ({
-    type: "tool",
+    // ✅ Klare Typentrennung: Sections = "tool", Trays = "tool-tray"
+    type: type === "tray" ? "tool-tray" : "tool",
     item: { type },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
@@ -27,21 +29,12 @@ function ToolItem({ type, label }: { type: string; label: string }) {
   );
 }
 
+/* 🔹 Artikelanzeige (kein Drag aktuell, nur visuell) */
 function ArticleItem({ article }: { article: Article }) {
-  const [{ isDragging }, drag] = useDrag(() => ({
-    type: "article",
-    item: { id: article.id, name: article.name },
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  }));
-
   return (
     <div
-      ref={drag as unknown as React.LegacyRef<HTMLDivElement>}
-      className={`flex items-center gap-2 p-2 rounded-lg cursor-move mb-2 
-        ${isDragging ? "bg-emerald-600/60" : "bg-white/10 hover:bg-white/20"} 
-        text-white transition`}
+      className={`flex items-center gap-2 p-2 rounded-lg mb-2 
+        bg-white/10 hover:bg-white/20 text-white transition`}
     >
       {article.image_url && (
         <Image
@@ -52,11 +45,12 @@ function ArticleItem({ article }: { article: Article }) {
           className="rounded"
         />
       )}
-      <span className="font-mono">{article.name}</span>
+      <span className="font-mono truncate">{article.name}</span>
     </div>
   );
 }
 
+/* 🔹 Main Sidebar */
 export default function ToolSidebar({
   tools = ["section", "tray"],
   activeSection,
@@ -81,8 +75,10 @@ export default function ToolSidebar({
         .from("articles")
         .select("*")
         .eq("section", activeSection);
-      console.log("Lade Artikel für Section:", activeSection);
-      console.log("Artikel Daten:", data);
+
+      console.log("📦 Lade Artikel für Section:", activeSection);
+      console.log("📦 Gefundene Artikel:", data);
+
       if (error) console.error(error);
       else setArticles(data || []);
     };
@@ -119,9 +115,7 @@ export default function ToolSidebar({
           ))}
         </>
       ) : (
-        <p className="text-sm text-white/50 italic">
-          Keine Section aktiv.
-        </p>
+        <p className="text-sm text-white/50 italic">Keine Section aktiv.</p>
       )}
     </div>
   );

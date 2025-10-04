@@ -7,7 +7,13 @@ export function useWorkAreaItems() {
   const [items, setItems] = useState<DroppedItem[]>([]);
 
   const updateItem = (id: string, updates: Partial<DroppedItem>) =>
-    setItems((prev) => prev.map((it) => (it.id === id ? { ...it, ...updates } : it)));
+    setItems((prev) => prev.map((it) => {
+      if (it.id === id) {
+        console.log("Updating tray:", id, updates);
+        return { ...it, ...updates };
+      }
+      return it;
+    }));
 
   const addItem = (newItem: DroppedItem) => setItems((prev) => [...prev, newItem]);
 
