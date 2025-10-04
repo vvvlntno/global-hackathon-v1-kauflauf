@@ -13,11 +13,13 @@ import { glassStyles } from "@/shared/styles/glassStyles";
 interface WorkAreaContainerProps {
   onToolsChange?: (tools: string[]) => void;
   onBreadcrumbChange?: (path: string) => void;
+  onSectionChange?: (sectionName: string | null) => void; // 🔹 NEU
 }
 
 export default function WorkAreaContainer({
   onToolsChange,
   onBreadcrumbChange,
+  onSectionChange,
 }: WorkAreaContainerProps) {
   const { items, updateItem, addItem } = useWorkAreaItems();
   const [snapping, setSnapping] = useState(true);
@@ -79,11 +81,13 @@ export default function WorkAreaContainer({
   const handleEnterSection = (section: DroppedItem) => {
     setActiveSection(section);
     onBreadcrumbChange?.(`Root > ${section.name}`);
+    onSectionChange?.(section.name);
   };
 
   const handleExitSection = () => {
     setActiveSection(null);
     onBreadcrumbChange?.("Root");
+    onSectionChange?.(null);
   };
 
   const visibleItems = items.filter((i) =>

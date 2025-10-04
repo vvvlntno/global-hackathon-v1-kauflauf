@@ -7,6 +7,12 @@ export interface DroppedItem {
   width: number;
   height: number;
   colorIndex: number;
-  parentId?: string; // neu: für Hierarchie
+  parentId?: string;
 }
 
+export interface Article {
+  id: string;
+  name: string;
+  section: string | null;
+  image_url?: string;
+}

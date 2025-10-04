@@ -12,6 +12,7 @@ interface EditorCoreProps {
 
 export default function EditorCore({ onBreadcrumbUpdate }: EditorCoreProps) {
   const [currentTools, setCurrentTools] = useState<string[]>(["section"]);
+  const [activeSectionName, setActiveSectionName] = useState<string | null>(null);
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -19,8 +20,9 @@ export default function EditorCore({ onBreadcrumbUpdate }: EditorCoreProps) {
         <WorkAreaContainer
           onToolsChange={setCurrentTools}
           onBreadcrumbChange={onBreadcrumbUpdate}
+          onSectionChange={setActiveSectionName}
         />
-        <ToolSidebar tools={currentTools} />
+        <ToolSidebar tools={currentTools} activeSection={activeSectionName} />
       </div>
     </DndProvider>
   );
