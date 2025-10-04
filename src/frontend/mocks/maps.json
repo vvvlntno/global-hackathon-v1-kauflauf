@@ -1,8 +1,8 @@
 [
   {
     "id": "1",
-    "title": "My Grocery Store",
-    "description": "Fresh produce and daily essentials",
+    "title": "Demo Store",
+    "description": "Demo demo demo, and demo demo demo :)",
     "image": null,
     "layout": {
       "sections": []

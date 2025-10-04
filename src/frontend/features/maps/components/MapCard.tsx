@@ -1,47 +1,69 @@
 "use client";
 
-import { Eye, Pencil } from "lucide-react";
-import Link from "next/link";
+import { MapOverview } from "@/features/maps/types/maps";
 import { glassStyles } from "@/shared/styles/glassStyles";
+import { Eye, Pencil } from "lucide-react";
+import { useState } from "react";
+import EditMapModal from "./EditMapModal";
 
 interface MapCardProps {
-  id: string;
-  title: string;
-  description: string;
+  map: MapOverview;
 }
 
-export default function MapCard({ id, title, description }: MapCardProps) {
+export default function MapCard({ map }: MapCardProps) {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <div
-      className={`w-full max-w-2xl flex items-center gap-4 p-4 rounded-xl 
-                  text-white font-mono transition transform hover:scale-105 hover:bg-white/20 
-                  ${glassStyles}`}
-    >
-      <div className="w-20 h-20 rounded-lg bg-white/20 flex items-center justify-center">
-        <span className="text-sm text-gray-300">Img</span>
+    <>
+      {/* Card */}
+      <div
+        className={`relative flex items-center justify-between 
+                    w-[60%] min-h-[120px] p-4 rounded-xl border ${glassStyles}
+                    hover:scale-[1.02] transition mx-auto`}
+      >
+        {/* Image + Info */}
+        <div className="flex items-center gap-4">
+          <div className="w-16 h-16 rounded-lg bg-white/20 flex items-center justify-center text-xs text-gray-200">
+            Img
+          </div>
+          <div>
+            <h2 className="font-mono font-bold">{map.title}</h2>
+            <p className="text-sm text-gray-300 line-clamp-2">
+              {map.description || "No description"}
+            </p>
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex flex-col gap-2">
+          <button
+            onClick={() => console.log("View map", map.id)}
+            className="p-2 rounded-lg hover:bg-white/20 transition"
+            title="View"
+          >
+            <Eye className="w-5 h-5" />
+          </button>
+          <button
+            onClick={() => setIsOpen(true)}
+            className="p-2 rounded-lg hover:bg-white/20 transition"
+            title="Edit"
+          >
+            <Pencil className="w-5 h-5" />
+          </button>
+        </div>
       </div>
 
-      <div className="flex-1">
-        <h2 className="text-lg font-bold">{title}</h2>
-        <p className="text-sm text-gray-300 line-clamp-2">{description}</p>
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <Link
-          href={`/maps/${id}/view`}
-          className={`p-2 rounded-lg flex items-center justify-center hover:bg-white/20 transition ${glassStyles}`}
-          title="View Map"
-        >
-          <Eye size={18} />
-        </Link>
-        <Link
-          href={`/maps/${id}/edit`}
-          className={`p-2 rounded-lg flex items-center justify-center hover:bg-white/20 transition ${glassStyles}`}
-          title="Edit Map"
-        >
-          <Pencil size={18} />
-        </Link>
-      </div>
-    </div>
+      {/* Edit Modal */}
+      <EditMapModal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        map={{
+          id: map.id,
+          title: map.title,
+          description: map.description || "",
+          layout: (map as any).layout ?? {},
+        }}
+      />
+    </>
   );
 }
