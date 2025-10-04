@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useWorkAreaItems } from "./useWorkAreaItems";
 import { DroppedItem } from "./types";
 import WorkAreaRoot from "./WorkAreaRoot";
 import WorkAreaSection from "./WorkAreaSection";
 import SectionEditModal from "./SectionEditModal";
+import ItemEditModal from "./ItemEditModal";
 import ContextMenu from "./ContextMenu";
 import { glassStyles } from "@/shared/styles/glassStyles";
 
@@ -29,6 +30,8 @@ export default function WorkAreaContainer({
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingSection, setEditingSection] = useState<DroppedItem | null>(null);
+  const [isItemModalOpen, setIsItemModalOpen] = useState(false);
+  const [editingItem, setEditingItem] = useState<DroppedItem | null>(null);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
 
   const WORKAREA_SIZE = 5000;
@@ -40,9 +43,7 @@ export default function WorkAreaContainer({
     setOffset({ x: centerX, y: centerY });
   }, []);
 
-
   const handleDropRoot = (item: { type: string }, x: number, y: number) => {
-    console.log("Adding ROOT item", item, x, y);
     addItem({
       id: Date.now().toString(),
       type: item.type,
@@ -52,7 +53,7 @@ export default function WorkAreaContainer({
       height: 120,
       name: "New Section",
       colorIndex: Math.floor(Math.random() * 8),
-      parentId: undefined, // wichtig!
+      parentId: undefined,
     });
   };
 
@@ -62,7 +63,6 @@ export default function WorkAreaContainer({
     y: number,
     parentId: string
   ) => {
-    console.log("Adding SECTION item", parentId, x, y);
     addItem({
       id: Date.now().toString(),
       type: item.type,
@@ -90,7 +90,7 @@ export default function WorkAreaContainer({
     activeSection ? i.parentId === activeSection.id : !i.parentId
   );
 
-  const currentTools = activeSection === null ? ["section"] : ["tray", "shelf"];
+  const currentTools = activeSection === null ? ["section"] : ["tray"];
   useEffect(() => {
     onToolsChange?.(currentTools);
   }, [activeSection]);
@@ -98,7 +98,7 @@ export default function WorkAreaContainer({
   return (
     <div
       className="flex-1 relative overflow-hidden bg-gray-900 select-none"
-      onContextMenu={e => e.preventDefault()}
+      onContextMenu={(e) => e.preventDefault()}
     >
       {!activeSection ? (
         <WorkAreaRoot
@@ -124,21 +124,39 @@ export default function WorkAreaContainer({
           {/* Overlay for click outside section using pointer location */}
           <div
             className="absolute inset-0"
-            style={{ background: "transparent", pointerEvents: "auto", zIndex: 10 }}
-            onPointerDown={e => {
+            style={{
+              background: "transparent",
+              pointerEvents: "auto",
+              zIndex: 10,
+            }}
+            onPointerDown={(e) => {
               const section = document.getElementById("work-area-section");
               if (section) {
                 const rect = section.getBoundingClientRect();
                 const x = e.clientX;
                 const y = e.clientY;
-                if (x < rect.left || x > rect.right || y < rect.top || y > rect.bottom) {
+                if (
+                  x < rect.left ||
+                  x > rect.right ||
+                  y < rect.top ||
+                  y > rect.bottom
+                ) {
                   handleExitSection();
                 }
               }
             }}
           />
-          <div style={{ position: "relative", zIndex: 20, display: "flex", alignItems: "center", justifyContent: "center", height: "100vh" }}>
-            
+
+          <div
+            style={{
+              position: "relative",
+              zIndex: 20,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "100vh",
+            }}
+          >
             <WorkAreaSection
               parent={activeSection}
               items={visibleItems}
@@ -154,18 +172,28 @@ export default function WorkAreaContainer({
                   visible: true,
                 })
               }
-              onExit={handleExitSection}
             />
+
+            {/* Backup overlay (zIndex 5) */}
             <div
               className="absolute inset-0"
-              style={{ background: "transparent", pointerEvents: "auto", zIndex: 5 }}
-              onPointerDown={e => {
+              style={{
+                background: "transparent",
+                pointerEvents: "auto",
+                zIndex: 5,
+              }}
+              onPointerDown={(e) => {
                 const section = document.getElementById("work-area-section");
                 if (section) {
                   const rect = section.getBoundingClientRect();
                   const x = e.clientX;
                   const y = e.clientY;
-                  if (x < rect.left || x > rect.right || y < rect.top || y > rect.bottom) {
+                  if (
+                    x < rect.left ||
+                    x > rect.right ||
+                    y < rect.top ||
+                    y > rect.bottom
+                  ) {
                     handleExitSection();
                   }
                 }
@@ -182,6 +210,7 @@ export default function WorkAreaContainer({
         {snapping ? "Snapping: On" : "Snapping: Off"}
       </button>
 
+      {/* Section Edit Modal */}
       <SectionEditModal
         isOpen={isModalOpen}
         section={editingSection}
@@ -189,13 +218,26 @@ export default function WorkAreaContainer({
         onSave={(updated) => updateItem(updated.id, updated)}
       />
 
+      {/* Tray Edit Modal */}
+      <ItemEditModal
+        isOpen={isItemModalOpen}
+        item={editingItem}
+        onClose={() => setIsItemModalOpen(false)}
+        onSave={(updated) => updateItem(updated.id, updated)}
+      />
+
+      {/* Updated ContextMenu */}
       <ContextMenu
         x={contextMenu.x}
         y={contextMenu.y}
         isVisible={contextMenu.visible}
+        item={contextMenu.item}
         onClose={() => setContextMenu((p) => ({ ...p, visible: false }))}
         onEdit={() => {
-          if (contextMenu.item) {
+          if (contextMenu.item?.type === "tray") {
+            setEditingItem(contextMenu.item);
+            setIsItemModalOpen(true);
+          } else if (contextMenu.item) {
             setEditingSection(contextMenu.item);
             setIsModalOpen(true);
           }

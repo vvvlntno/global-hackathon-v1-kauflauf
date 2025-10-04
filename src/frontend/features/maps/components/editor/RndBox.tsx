@@ -60,16 +60,20 @@ export default function RndBox({
           y: position.y,
         });
       }}
-      enableResizing={{
-        top: true,
-        right: true,
-        bottom: true,
-        left: true,
-        topRight: true,
-        bottomRight: true,
-        bottomLeft: true,
-        topLeft: true,
-      }}
+      enableResizing={
+        item.type === "tray"
+          ? false
+          : {
+              top: true,
+              right: true,
+              bottom: true,
+              left: true,
+              topRight: true,
+              bottomRight: true,
+              bottomLeft: true,
+              topLeft: true,
+            }
+      }
       className="rounded-xl overflow-hidden cursor-move select-none"
     >
       <div

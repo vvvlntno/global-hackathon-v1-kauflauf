@@ -14,7 +14,6 @@ interface WorkAreaSectionProps {
   onDrop: (item: { type: string }, x: number, y: number, parentId: string) => void;
   onUpdate: (id: string, updates: Partial<DroppedItem>) => void;
   onContextMenu: (e: React.MouseEvent, item: DroppedItem) => void;
-  onExit: () => void;
 }
 
 export default function WorkAreaSection({
@@ -25,22 +24,24 @@ export default function WorkAreaSection({
   onDrop,
   onUpdate,
   onContextMenu,
-  onExit,
 }: WorkAreaSectionProps) {
-
   const containerRef = useRef<HTMLDivElement>(null);
+
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "tool",
     drop: (item: { type: string }, monitor) => {
       const client = monitor.getClientOffset();
       const container = containerRef.current?.getBoundingClientRect();
       if (!client || !container) return;
+
       let x = client.x - container.left - 50;
       let y = client.y - container.top - 50;
+
       if (snapping) {
         x = Math.round(x / GRID_SIZE) * GRID_SIZE;
         y = Math.round(y / GRID_SIZE) * GRID_SIZE;
       }
+
       console.log("Adding SECTION item", parent.id, x, y);
       onDrop(item, x, y, parent.id);
     },

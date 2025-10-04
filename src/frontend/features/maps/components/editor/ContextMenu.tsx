@@ -3,11 +3,13 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { glassStyles } from "@/shared/styles/glassStyles";
 import { Edit2, DoorOpen } from "lucide-react";
+import { DroppedItem } from "./types";
 
 interface ContextMenuProps {
   x: number;
   y: number;
   isVisible: boolean;
+  item: DroppedItem | null;
   onEdit: () => void;
   onEnter: () => void;
   onClose: () => void;
@@ -17,10 +19,13 @@ export default function ContextMenu({
   x,
   y,
   isVisible,
+  item,
   onEdit,
   onEnter,
   onClose,
 }: ContextMenuProps) {
+  if (!item) return null;
+
   return (
     <AnimatePresence>
       {isVisible && (
@@ -33,25 +38,39 @@ export default function ContextMenu({
           style={{ top: y, left: x }}
           onMouseLeave={onClose}
         >
-          <button
-            onClick={() => {
-              onEdit();
-              onClose();
-            }}
-            className="flex items-center gap-2 w-full text-left px-3 py-2 rounded-lg text-sm hover:bg-white/20 transition text-white"
-          >
-            <Edit2 size={14} /> Edit Section
-          </button>
+          {item.type === "section" ? (
+            <>
+              <button
+                onClick={() => {
+                  onEdit();
+                  onClose();
+                }}
+                className="flex items-center gap-2 w-full text-left px-3 py-2 rounded-lg text-sm hover:bg-white/20 transition text-white"
+              >
+                <Edit2 size={14} /> Edit Section
+              </button>
 
-          <button
-            onClick={() => {
-              onEnter();
-              onClose();
-            }}
-            className="flex items-center gap-2 w-full text-left px-3 py-2 rounded-lg text-sm hover:bg-white/20 transition text-white"
-          >
-            <DoorOpen size={14} /> Enter Section
-          </button>
+              <button
+                onClick={() => {
+                  onEnter();
+                  onClose();
+                }}
+                className="flex items-center gap-2 w-full text-left px-3 py-2 rounded-lg text-sm hover:bg-white/20 transition text-white"
+              >
+                <DoorOpen size={14} /> Enter Section
+              </button>
+            </>
+          ) : (
+            <button
+              onClick={() => {
+                onEdit();
+                onClose();
+              }}
+              className="flex items-center gap-2 w-full text-left px-3 py-2 rounded-lg text-sm hover:bg-white/20 transition text-white"
+            >
+              <Edit2 size={14} /> Edit Tray
+            </button>
+          )}
         </motion.div>
       )}
     </AnimatePresence>

@@ -27,7 +27,6 @@ export default function ToolSidebar({ tools = ["section"] }: { tools?: string[] 
   const labelMap: Record<string, string> = {
     section: "+ Section",
     tray: "+ Tray",
-    shelf: "+ Shelf",
   };
 
   return (
