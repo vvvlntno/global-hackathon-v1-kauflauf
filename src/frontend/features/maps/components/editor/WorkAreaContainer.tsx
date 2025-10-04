@@ -158,21 +158,26 @@ export default function WorkAreaContainer({
             }}
           >
             <WorkAreaSection
-              parent={activeSection}
-              items={visibleItems}
-              snapping={snapping}
-              GRID_SIZE={GRID_SIZE}
-              onDrop={handleDropSection}
-              onUpdate={updateItem}
-              onContextMenu={(e, it) =>
-                setContextMenu({
-                  x: e.clientX,
-                  y: e.clientY,
-                  item: it,
-                  visible: true,
-                })
-              }
+                parent={activeSection}
+                items={visibleItems}
+                snapping={snapping}
+                GRID_SIZE={GRID_SIZE}
+                onDrop={handleDropSection}
+                onUpdate={updateItem}
+                onContextMenu={(e, it) =>
+                    setContextMenu({
+                    x: e.clientX,
+                    y: e.clientY,
+                    item: it,
+                    visible: true,
+                    })
+                }
+                onItemDoubleClick={(item) => {
+                    setEditingItem(item);
+                    setIsItemModalOpen(true);
+                }}
             />
+
 
             {/* Backup overlay (zIndex 5) */}
             <div

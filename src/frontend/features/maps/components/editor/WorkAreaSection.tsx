@@ -14,6 +14,7 @@ interface WorkAreaSectionProps {
   onDrop: (item: { type: string }, x: number, y: number, parentId: string) => void;
   onUpdate: (id: string, updates: Partial<DroppedItem>) => void;
   onContextMenu: (e: React.MouseEvent, item: DroppedItem) => void;
+  onItemDoubleClick: (item: DroppedItem) => void; // 🟢 neu
 }
 
 export default function WorkAreaSection({
@@ -24,6 +25,7 @@ export default function WorkAreaSection({
   onDrop,
   onUpdate,
   onContextMenu,
+  onItemDoubleClick, // 🟢 neu
 }: WorkAreaSectionProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -42,7 +44,6 @@ export default function WorkAreaSection({
         y = Math.round(y / GRID_SIZE) * GRID_SIZE;
       }
 
-      console.log("Adding SECTION item", parent.id, x, y);
       onDrop(item, x, y, parent.id);
     },
     collect: (m) => ({ isOver: !!m.isOver() }),
@@ -73,7 +74,11 @@ export default function WorkAreaSection({
           item={item}
           snapping={snapping}
           onUpdate={onUpdate}
-          onDoubleClick={() => {}}
+          onDoubleClick={() => {
+            if (item.type === "tray") {
+              onItemDoubleClick(item); // 🟢 öffnet ItemEditModal
+            }
+          }}
           onContextMenu={(e) => onContextMenu(e, item)}
         />
       ))}
