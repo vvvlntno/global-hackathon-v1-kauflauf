@@ -1,6 +1,7 @@
 import EditorCore from "@/features/maps/components/editor/EditorCore";
 import { ArrowLeft } from "lucide-react";
 import GlassButton from "@/shared/components/GlassButton";
+import BreadcrumbHeader from "@/features/maps/components/editor/BreadCrumbHeader";
 
 interface EditPageProps {
   params: { mapId: string };
@@ -14,6 +15,10 @@ export default function EditPage({ params }: EditPageProps) {
         <GlassButton href="/maps">
           <ArrowLeft size={16} /> Map overview
         </GlassButton>
+      </div>
+
+      <div className="absolute top-6 left-1/2 transform -translate-x-1/2 z-50">
+        <BreadcrumbHeader />
       </div>
 
       {/* Editor Core */}

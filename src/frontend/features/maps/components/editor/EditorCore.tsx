@@ -5,6 +5,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import WorkArea from "./WorkArea";
 import ToolSidebar from "./ToolSidebar";
 
+
 export default function EditorCore() {
   return (
     <DndProvider backend={HTML5Backend}>

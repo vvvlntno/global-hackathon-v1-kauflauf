@@ -1,0 +1,59 @@
+"use client";
+
+import { motion, AnimatePresence } from "framer-motion";
+import { glassStyles } from "@/shared/styles/glassStyles";
+import { Edit2, DoorOpen } from "lucide-react";
+
+interface ContextMenuProps {
+  x: number;
+  y: number;
+  isVisible: boolean;
+  onEdit: () => void;
+  onEnter: () => void;
+  onClose: () => void;
+}
+
+export default function ContextMenu({
+  x,
+  y,
+  isVisible,
+  onEdit,
+  onEnter,
+  onClose,
+}: ContextMenuProps) {
+  return (
+    <AnimatePresence>
+      {isVisible && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          transition={{ duration: 0.15 }}
+          className={`absolute z-50 min-w-[160px] rounded-xl p-2 ${glassStyles}`}
+          style={{ top: y, left: x }}
+          onMouseLeave={onClose}
+        >
+          <button
+            onClick={() => {
+              onEdit();
+              onClose();
+            }}
+            className="flex items-center gap-2 w-full text-left px-3 py-2 rounded-lg text-sm hover:bg-white/20 transition text-white"
+          >
+            <Edit2 size={14} /> Edit Section
+          </button>
+
+          <button
+            onClick={() => {
+              onEnter();
+              onClose();
+            }}
+            className="flex items-center gap-2 w-full text-left px-3 py-2 rounded-lg text-sm hover:bg-white/20 transition text-white"
+          >
+            <DoorOpen size={14} /> Enter Section
+          </button>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}

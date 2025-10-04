@@ -6,6 +6,7 @@ import RndBox from "./RndBox";
 import { DroppedItem } from "./types";
 import { glassStyles } from "@/shared/styles/glassStyles";
 import SectionEditModal from "./SectionEditModal";
+import ContextMenu from "./ContextMenu";
 
 export default function WorkArea() {
   const [items, setItems] = useState<DroppedItem[]>([]);
@@ -13,6 +14,14 @@ export default function WorkArea() {
 
   const [editingSection, setEditingSection] = useState<DroppedItem | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // 🧠 ContextMenu State
+  const [contextMenu, setContextMenu] = useState({
+    x: 0,
+    y: 0,
+    item: null as DroppedItem | null,
+    visible: false,
+  });
 
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const isPanning = useRef(false);
@@ -46,7 +55,7 @@ export default function WorkArea() {
         width: 120,
         height: 120,
         name: "New Section",
-        colorIndex: 0, // Default rot
+        colorIndex: 0,
       };
       setItems((prev) => [...prev, newItem]);
     },
@@ -68,15 +77,12 @@ export default function WorkArea() {
   // ✋ Panning
   const clampOffset = (x: number, y: number) => {
     if (typeof window === "undefined") return { x, y };
-
     const viewWidth = window.innerWidth;
     const viewHeight = window.innerHeight;
-
     const minX = -(WORKAREA_SIZE - viewWidth);
     const minY = -(WORKAREA_SIZE - viewHeight);
     const maxX = 0;
     const maxY = 0;
-
     return {
       x: Math.min(Math.max(x, minX), maxX),
       y: Math.min(Math.max(y, minY), maxY),
@@ -106,7 +112,6 @@ export default function WorkArea() {
     lastPos.current = null;
   };
 
-  // 📍 Start in der Mitte
   useEffect(() => {
     if (typeof window !== "undefined") {
       const centerX = window.innerWidth / 2 - WORKAREA_SIZE / 2;
@@ -123,7 +128,6 @@ export default function WorkArea() {
       onMouseUp={handleMouseUp}
       onContextMenu={(e) => e.preventDefault()}
     >
-      {/* GRID */}
       <div
         ref={dropRef}
         className="absolute"
@@ -143,17 +147,15 @@ export default function WorkArea() {
             item={item}
             snapping={snapping}
             onUpdate={handleUpdate}
-            onDoubleClick={() => {
-              if (item.type === "section") {
-                setEditingSection(item);
-                setIsModalOpen(true);
-              }
+            onDoubleClick={() => console.log("DoubleClick: Enter Section")}
+            onContextMenu={(e) => {
+              e.preventDefault();
+              setContextMenu({ x: e.clientX, y: e.clientY, item, visible: true });
             }}
           />
         ))}
       </div>
 
-      {/* Snapping Toggle */}
       <button
         onClick={() => setSnapping((s) => !s)}
         className={`absolute bottom-6 right-6 px-4 py-2 rounded-xl font-mono text-sm hover:bg-white/20 transition ${glassStyles}`}
@@ -161,7 +163,6 @@ export default function WorkArea() {
         {snapping ? "Snapping: On" : "Snapping: Off"}
       </button>
 
-      {/* Section Edit Modal */}
       <SectionEditModal
         isOpen={isModalOpen}
         section={editingSection}
@@ -171,6 +172,20 @@ export default function WorkArea() {
             prev.map((it) => (it.id === updated.id ? updated : it))
           );
         }}
+      />
+
+      <ContextMenu
+        x={contextMenu.x}
+        y={contextMenu.y}
+        isVisible={contextMenu.visible}
+        onClose={() => setContextMenu((p) => ({ ...p, visible: false }))}
+        onEdit={() => {
+          if (contextMenu.item) {
+            setEditingSection(contextMenu.item);
+            setIsModalOpen(true);
+          }
+        }}
+        onEnter={() => console.log("Enter Section (Dummy)")}
       />
     </div>
   );

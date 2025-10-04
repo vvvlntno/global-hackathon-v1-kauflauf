@@ -4,37 +4,41 @@ import { Rnd } from "react-rnd";
 import { DroppedItem } from "./types";
 import { useState } from "react";
 
+const baseGlassStyle = `
+  backdrop-blur-md border border-white/20 drop-shadow-lg
+  transition transform hover:scale-[1.02]
+`;
+
 interface RndBoxProps {
   item: DroppedItem;
   snapping: boolean;
   onUpdate: (id: string, updates: Partial<DroppedItem>) => void;
   onDoubleClick?: () => void;
-  style?: React.CSSProperties;
+  onContextMenu?: (e: React.MouseEvent) => void;
 }
-
-const tailwindColors = [
-  "bg-red-500/20 hover:bg-red-500/30",
-  "bg-blue-500/20 hover:bg-blue-500/30",
-  "bg-emerald-500/20 hover:bg-emerald-500/30",
-  "bg-purple-500/20 hover:bg-purple-500/30",
-  "bg-pink-500/20 hover:bg-pink-500/30",
-  "bg-yellow-500/20 hover:bg-yellow-500/30",
-  "bg-cyan-500/20 hover:bg-cyan-500/30",
-  "bg-orange-500/20 hover:bg-orange-500/30",
-];
 
 export default function RndBox({
   item,
   snapping,
   onUpdate,
   onDoubleClick,
-  style,
+  onContextMenu,
 }: RndBoxProps) {
   const [isDragging, setIsDragging] = useState(false);
   const GRID_SIZE = 20;
 
-  const colorIndex = item.colorIndex ?? 0;
-  const colorClass = tailwindColors[colorIndex % tailwindColors.length];
+  const colors = [
+    "bg-red-500/20 border-red-500/30",
+    "bg-blue-500/20 border-blue-500/30",
+    "bg-emerald-500/20 border-emerald-500/30",
+    "bg-purple-500/20 border-purple-500/30",
+    "bg-pink-500/20 border-pink-500/30",
+    "bg-yellow-500/20 border-yellow-500/30",
+    "bg-cyan-500/20 border-cyan-500/30",
+    "bg-orange-500/20 border-orange-500/30",
+  ];
+
+  const colorClass = colors[item.colorIndex ?? 0] ?? "bg-white/10 border-white/20";
 
   return (
     <Rnd
@@ -68,28 +72,12 @@ export default function RndBox({
       }}
       className="rounded-xl overflow-hidden cursor-move select-none"
     >
-      <div className="w-full h-full relative group">
-        {/* Hintergrund-Layer → Visual, keine Events */}
-        <div
-          className={`
-            absolute inset-0 rounded-xl transition-all duration-300 
-            ${colorClass} backdrop-blur-md border border-white/20 drop-shadow-lg
-            group-hover:scale-[1.02]
-          `}
-          style={{
-            pointerEvents: "none",
-          }}
-        />
-
-        {/* Interaktions-Layer → Text & DoubleClick */}
-        <div
-          onDoubleClick={onDoubleClick}
-          className="relative w-full h-full flex items-center justify-center text-center 
-                     font-mono text-sm text-white select-none"
-          style={style}
-        >
-          {item.name || "Section"}
-        </div>
+      <div
+        onDoubleClick={onDoubleClick}
+        onContextMenu={onContextMenu}
+        className={`w-full h-full flex items-center justify-center text-center font-mono text-sm text-white rounded-xl ${baseGlassStyle} ${colorClass}`}
+      >
+        {item.name || "Section"}
       </div>
     </Rnd>
   );
