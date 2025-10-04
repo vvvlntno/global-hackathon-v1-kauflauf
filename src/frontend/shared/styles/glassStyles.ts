@@ -1,0 +1,1 @@
+export const glassStyles = "bg-white/10 backdrop-blur-md drop-shadow-lg border border-white/20";

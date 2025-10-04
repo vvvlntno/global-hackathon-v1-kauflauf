@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1",
+    "title": "Demo Store",
+    "description": "Demo demo demo, and demo demo demo :)",
+    "image": null,
+    "layout": {
+      "sections": []
+    }
+  },
+  {
+    "id": "2",
+    "title": "Electronics Shop",
+    "description": "Gadgets and accessories",
+    "image": null,
+    "layout": {
+      "sections": []
+    }
+  }
+]
