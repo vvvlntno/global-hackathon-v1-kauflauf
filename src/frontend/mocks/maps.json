@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1",
+    "title": "My Grocery Store",
+    "description": "Fresh produce and daily essentials",
+    "image": null,
+    "layout": {
+      "sections": []
+    }
+  },
+  {
+    "id": "2",
+    "title": "Electronics Shop",
+    "description": "Gadgets and accessories",
+    "image": null,
+    "layout": {
+      "sections": []
+    }
+  }
+]

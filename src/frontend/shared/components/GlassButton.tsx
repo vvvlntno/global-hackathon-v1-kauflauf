@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ReactNode } from "react";
+import { glassStyles } from "../styles/glassStyles";
 
 interface GlassButtonProps {
   href?: string;
@@ -9,9 +10,11 @@ interface GlassButtonProps {
 }
 
 export default function GlassButton({ href, onClick, children, className = "" }: GlassButtonProps) {
-  const baseStyle = `inline-block font-mono px-6 py-3 rounded-xl 
-                     bg-white/10 backdrop-blur-md drop-shadow-lg border border-white/20 
-                     text-white hover:bg-white/20 transition transform hover:scale-105 ${className}`;
+  const baseStyle = `
+    inline-block font-mono px-6 py-3 rounded-xl text-white 
+    hover:bg-white/20 transition transform hover:scale-105
+    ${glassStyles} ${className}
+  `;
 
   if (href) {
     return (
