@@ -3,17 +3,7 @@ import { motion } from "framer-motion";
 
 import GlassHeader from "@/shared/components/GlassHeader";
 import GlassButton from "@/shared/components/GlassButton";
-import ReviewsCarousel from "@/shared/components/ReviewCarousel";
-
-const reviews = [
-  { id: 1, text: "⭐⭐⭐⭐⭐  Super easy to use!" },
-  { id: 2, text: "⭐⭐⭐⭐  Finally no more wasting time searching for items." },
-  { id: 3, text: "⭐⭐⭐⭐⭐  Always the fastest route – saves me money too." },
-  { id: 4, text: "⭐⭐⭐⭐  Building my store map took just a few minutes." },
-  { id: 5, text: "⭐⭐⭐⭐⭐  Love the clean design and animations." },
-  { id: 6, text: "⭐⭐⭐⭐  My team organizes shelves so much faster now." },
-  { id: 7, text: "⭐⭐⭐⭐⭐  This tool literally saved me hours every week!" },
-];
+import { ArrowRight } from "lucide-react";
 
 export default function LandingPage() {
   return (
@@ -45,7 +35,7 @@ export default function LandingPage() {
         }}
         transition={{ duration: 0.6, ease: "easeInOut" }}
       >
-        <GlassButton href="/maps">Start →</GlassButton>
+        <GlassButton href="/maps">Start <ArrowRight size={16} /></GlassButton>
       </motion.div>
     </main>
   );

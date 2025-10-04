@@ -3,21 +3,16 @@ import { getMapOverviews } from "@/features/maps/services/mapService.server";
 import { glassStyles } from "@/shared/styles/glassStyles";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import GlassButton from "@/shared/components/GlassButton";
 
 export default async function MapsPage() {
   const maps = await getMapOverviews();
 
   return (
     <main className="relative min-h-screen bg-gradient-to-br from-gray-900 to-black p-8 text-white">
-      {/* Branding Back Button oben links */}
-      <div className="absolute top-6 left-6">
-        <Link
-          href="/"
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg font-mono text-sm ${glassStyles} hover:bg-white/20 transition`}
-        >
-          <ArrowLeft size={16} /> Kauflauf
-        </Link>
-      </div>
+      <GlassButton href="/">
+        <ArrowLeft size={16} /> Kauflauf
+      </GlassButton>
 
       {/* Avatar oben rechts */}
       <div

@@ -1,24 +1,23 @@
-"use client";
+import EditorCore from "@/features/maps/components/editor/EditorCore";
+import { ArrowLeft } from "lucide-react";
+import GlassButton from "@/shared/components/GlassButton";
 
-import ToolSidebar from "@/features/maps/components/edit/ToolSidebar";
-import WorkArea from "@/features/maps/components/edit/WorkArea";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+interface EditPageProps {
+  params: { mapId: string };
+}
 
-export default function EditPage() {
+export default function EditPage({ params }: EditPageProps) {
   return (
-    <DndProvider backend={HTML5Backend}>
-      <main className="min-h-screen flex bg-gradient-to-br from-gray-900 to-black text-white font-mono">
-        {/* Arbeitsbereich */}
-        <div className="flex-1 p-4">
-          <WorkArea />
-        </div>
+    <main className="relative min-h-screen bg-gradient-to-br from-gray-900 to-black text-white font-mono">
+      {/* Back Button */}
+      <div className="absolute top-6 left-6 z-50">
+        <GlassButton href="/maps">
+          <ArrowLeft size={16} /> Map overview
+        </GlassButton>
+      </div>
 
-        {/* Tool-Bereich */}
-        <div className="w-64 border-l border-white/20 p-4">
-          <ToolSidebar />
-        </div>
-      </main>
-    </DndProvider>
+      {/* Editor Core */}
+      <EditorCore />
+    </main>
   );
 }
