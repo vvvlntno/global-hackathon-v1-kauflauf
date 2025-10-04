@@ -1,11 +1,12 @@
 export interface DroppedItem {
   id: string;
   type: string;
+  name: string;
   x: number;
   y: number;
   width: number;
   height: number;
-
-  name?: string;
-  colorIndex?: number;
+  colorIndex: number;
+  parentId?: string; // neu: für Hierarchie
 }
+

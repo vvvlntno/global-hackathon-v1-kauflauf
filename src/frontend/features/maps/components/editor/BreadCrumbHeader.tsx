@@ -7,10 +7,10 @@ import { useParams } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 
 interface BreadcrumbHeaderProps {
-  sectionName?: string;
+  path?: string;
 }
 
-export default function BreadcrumbHeader({ sectionName }: BreadcrumbHeaderProps) {
+export default function BreadcrumbHeader({ path }: BreadcrumbHeaderProps) {
   const [mapName, setMapName] = useState<string>("...");
   const params = useParams();
   const mapId = params?.mapId as string;
@@ -29,6 +29,9 @@ export default function BreadcrumbHeader({ sectionName }: BreadcrumbHeaderProps)
     };
     fetchMapName();
   }, [mapId]);
+
+  const sectionName =
+    path && path.startsWith("Root > ") ? path.replace("Root > ", "") : undefined;
 
   return (
     <div

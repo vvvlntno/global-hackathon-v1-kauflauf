@@ -23,11 +23,19 @@ function ToolItem({ type, label }: { type: string; label: string }) {
   );
 }
 
-export default function ToolSidebar() {
+export default function ToolSidebar({ tools = ["section"] }: { tools?: string[] }) {
+  const labelMap: Record<string, string> = {
+    section: "+ Section",
+    tray: "+ Tray",
+    shelf: "+ Shelf",
+  };
+
   return (
-    <div className="w-48 p-4 border-l border-white/10 bg-black/40 text-white font-mono">
+    <div className="w-48 p-4 border-l border-white/10 bg-black/40 text-white font-mono h-full">
       <h2 className="font-bold mb-4">Tools</h2>
-      <ToolItem type="section" label="+ Section" />
+      {(tools || []).map((t) => (
+        <ToolItem key={t} type={t} label={labelMap[t] || t} />
+      ))}
     </div>
   );
 }

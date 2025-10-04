@@ -13,8 +13,8 @@ interface RndBoxProps {
   item: DroppedItem;
   snapping: boolean;
   onUpdate: (id: string, updates: Partial<DroppedItem>) => void;
-  onDoubleClick?: () => void;
-  onContextMenu?: (e: React.MouseEvent) => void;
+  onDoubleClick?: (item: DroppedItem) => void;
+  onContextMenu?: (e: React.MouseEvent, item: DroppedItem) => void;
 }
 
 export default function RndBox({
@@ -73,8 +73,8 @@ export default function RndBox({
       className="rounded-xl overflow-hidden cursor-move select-none"
     >
       <div
-        onDoubleClick={onDoubleClick}
-        onContextMenu={onContextMenu}
+        onDoubleClick={() => onDoubleClick?.(item)}
+        onContextMenu={(e) => onContextMenu?.(e, item)}
         className={`w-full h-full flex items-center justify-center text-center font-mono text-sm text-white rounded-xl ${baseGlassStyle} ${colorClass}`}
       >
         {item.name || "Section"}
