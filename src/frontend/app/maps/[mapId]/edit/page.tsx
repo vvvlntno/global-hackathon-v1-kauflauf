@@ -1,41 +1,24 @@
-import { getMapById } from "@/features/maps/services/mapService.server";
-import { glassStyles } from "@/shared/styles/glassStyles";
-import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+"use client";
 
-interface EditPageProps {
-  params: { mapId: string };
-}
+import ToolSidebar from "@/features/maps/components/edit/ToolSidebar";
+import WorkArea from "@/features/maps/components/edit/WorkArea";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
-export default async function EditPage({ params }: EditPageProps) {
-  const map = await getMapById(params.mapId);
-
-  if (!map) {
-    return (
-      <main className="min-h-screen flex items-center justify-center bg-black text-white font-mono">
-        Map with ID {params.mapId} not found.
-      </main>
-    );
-  }
-
+export default function EditPage() {
   return (
-    <main className="relative min-h-screen bg-gradient-to-br from-gray-900 to-black p-8 text-white font-mono">
-      {/* Back Button oben links */}
-      <div className="absolute top-6 left-6">
-        <Link
-          href="/maps"
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm ${glassStyles} hover:bg-white/20 transition`}
-        >
-          <ArrowLeft size={16} /> Map overview
-        </Link>
-      </div>
+    <DndProvider backend={HTML5Backend}>
+      <main className="min-h-screen flex bg-gradient-to-br from-gray-900 to-black text-white font-mono">
+        {/* Arbeitsbereich */}
+        <div className="flex-1 p-4">
+          <WorkArea />
+        </div>
 
-      {/* Content */}
-      <h1 className="text-2xl font-bold mb-4">Editing: {map.title}</h1>
-      <p className="mb-4 text-gray-300">{map.description}</p>
-      <pre className="bg-black/40 p-4 rounded-lg overflow-x-auto text-sm">
-        {JSON.stringify(map.layout, null, 2)}
-      </pre>
-    </main>
+        {/* Tool-Bereich */}
+        <div className="w-64 border-l border-white/20 p-4">
+          <ToolSidebar />
+        </div>
+      </main>
+    </DndProvider>
   );
 }
