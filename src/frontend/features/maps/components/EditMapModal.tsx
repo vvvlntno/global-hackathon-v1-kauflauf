@@ -50,13 +50,13 @@ export default function EditMapModal({ isOpen, onClose, map }: EditMapModalProps
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
-          {/* Overlay */}
+          
           <div
             className="absolute inset-0 bg-black/60 backdrop-blur-sm"
             onClick={onClose}
           />
 
-          {/* Modal Card */}
+          
           <motion.div
             className="relative z-10 w-[560px] p-6 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 text-white font-mono"
             initial={{ scale: 0.95, opacity: 0 }}
@@ -65,7 +65,7 @@ export default function EditMapModal({ isOpen, onClose, map }: EditMapModalProps
             transition={{ duration: 0.3, ease: 'easeInOut' }}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Header */}
+            
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-mono text-white">Edit Map</h2>
               <button
@@ -76,14 +76,14 @@ export default function EditMapModal({ isOpen, onClose, map }: EditMapModalProps
               </button>
             </div>
 
-            {/* Content */}
+            
             <div className="flex gap-4 mb-6">
-              {/* Image Placeholder */}
+              
               <div className="w-24 h-24 bg-white/10 border border-white/20 rounded-md flex items-center justify-center text-xs text-white/60">
                 Img
               </div>
 
-              {/* Title + Description */}
+              
               <div className="flex-1 flex flex-col gap-3">
                 <input
                   type="text"
@@ -102,7 +102,7 @@ export default function EditMapModal({ isOpen, onClose, map }: EditMapModalProps
               </div>
             </div>
 
-            {/* Action Buttons */}
+            
             <div className="flex justify-between items-center mt-6">
               <button
                 onClick={handleEditLayout}

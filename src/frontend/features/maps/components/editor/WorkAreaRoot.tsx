@@ -33,7 +33,7 @@ export default function WorkAreaRoot({
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "tool",
     drop: (item: { type: string }, monitor) => {
-      console.log("Drop detected:", item);
+      
       const client = monitor.getClientOffset();
       const container = containerRef.current?.getBoundingClientRect();
       if (!client || !container) return;

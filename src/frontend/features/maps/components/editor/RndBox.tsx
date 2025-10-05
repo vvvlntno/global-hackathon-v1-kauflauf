@@ -42,7 +42,6 @@ export default function RndBox({
     colors[item.colorIndex ?? 0] ?? "bg-white/10 border-white/20";
 
   if (item.type === "tray") {
-    console.log("🧱 Tray Render:", item.name, "| ImageUrl:", item.imageUrl);
   }
 
   return (
@@ -86,7 +85,7 @@ export default function RndBox({
         onContextMenu={(e) => onContextMenu?.(e, item)}
         className={`w-full h-full flex items-center justify-center text-center font-mono text-sm text-white rounded-xl ${baseGlassStyle} ${colorClass}`}
       >
-        {/* 🖼️ Wenn Tray ein Bild hat → Bild rendern */}
+        
         {item.type === "tray" && item.imageUrl ? (
           <img
             src={item.imageUrl}
@@ -94,7 +93,7 @@ export default function RndBox({
             className="object-contain w-full h-full rounded-lg pointer-events-none select-none"
           />
         ) : (
-          // 🔤 Fallback: Name / Text
+          
           <span className="text-white text-xs font-mono">
             {item.name || "Section"}
           </span>

@@ -15,13 +15,13 @@ export default function MapCard({ map }: MapCardProps) {
 
   return (
     <>
-      {/* Card */}
+      
       <div
         className={`relative flex items-center justify-between 
                     w-[60%] min-h-[120px] p-4 rounded-xl border ${glassStyles}
                     hover:scale-[1.02] transition mx-auto`}
       >
-        {/* Image + Info */}
+        
         <div className="flex items-center gap-4">
           <div className="w-16 h-16 rounded-lg bg-white/20 flex items-center justify-center text-xs text-gray-200">
             Img
@@ -34,10 +34,10 @@ export default function MapCard({ map }: MapCardProps) {
           </div>
         </div>
 
-        {/* Action Buttons */}
+        
         <div className="flex flex-col gap-2">
           <button
-            onClick={() => console.log("View map", map.id)}
+            onClick={() => {}}
             className="p-2 rounded-lg hover:bg-white/20 transition"
             title="View"
           >
@@ -53,7 +53,7 @@ export default function MapCard({ map }: MapCardProps) {
         </div>
       </div>
 
-      {/* Edit Modal */}
+      
       <EditMapModal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}

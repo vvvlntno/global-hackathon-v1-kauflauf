@@ -11,7 +11,7 @@ interface Section {
   name: string;
 }
 
-/* 🔹 Draggable Tool Button (Section / Tray) */
+
 function ToolItem({ type, label }: { type: string; label: string }) {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: type === "tray" ? "tool-tray" : "tool",
@@ -33,7 +33,7 @@ function ToolItem({ type, label }: { type: string; label: string }) {
   );
 }
 
-/* 🔹 Artikelanzeige */
+
 function ArticleItem({ article }: { article: Article }) {
   return (
     <div
@@ -54,7 +54,7 @@ function ArticleItem({ article }: { article: Article }) {
   );
 }
 
-/* 🔹 Section Item */
+
 function SectionItem({ section }: { section: Section }) {
   return (
     <div
@@ -66,7 +66,7 @@ function SectionItem({ section }: { section: Section }) {
   );
 }
 
-/* 🔹 Main Sidebar */
+
 export default function ToolSidebar({
   tools = ["section", "tray"],
   activeSection,
@@ -81,7 +81,7 @@ export default function ToolSidebar({
     tray: "+ Tray",
   };
 
-  /* 🔸 Load Articles (wenn eine Section aktiv ist) */
+
   useEffect(() => {
     const load = async () => {
       if (!activeSection) {
@@ -94,14 +94,14 @@ export default function ToolSidebar({
         .select("*")
         .eq("section", activeSection);
 
-      if (error) console.error(error);
+  if (error) {}
       else setArticles(data || []);
     };
 
     load();
   }, [activeSection]);
 
-  /* 🔸 Load Sections (wenn man im Root-Modus ist) */
+
   useEffect(() => {
     const loadSections = async () => {
       if (activeSection) {
@@ -112,19 +112,18 @@ export default function ToolSidebar({
       const { data, error } = await supabase
         .from("articles")
         .select("section")
-        .not("section", "is", null); // optional, falls mal Artikel ohne Section existieren
+  .not("section", "is", null);
 
       if (error) {
-        console.error(error);
         return;
       }
 
-      // 🔹 Nur eindeutige Sections extrahieren
+      
       const uniqueSections = Array.from(
         new Set(data.map((a) => a.section))
       ).map((name) => ({ id: name, name }));
 
-      console.log("📦 Gefundene Sections:", uniqueSections);
+      
       setSections(uniqueSections);
     };
 
@@ -133,7 +132,7 @@ export default function ToolSidebar({
 
   return (
     <div className="w-56 p-4 border-l border-white/10 bg-black/40 text-white font-mono h-full overflow-y-auto">
-      {/* 🧰 Tools */}
+      
       <h2 className="font-bold mb-4">Tools</h2>
       {tools.map((t) => (
         <ToolItem key={t} type={t} label={labelMap[t] || t} />
@@ -141,7 +140,7 @@ export default function ToolSidebar({
 
       <div className="my-6 border-t border-white/20"></div>
 
-      {/* 🧾 Anzeige abhängig vom Modus */}
+      
       {activeSection ? (
         <>
           <h2 className="font-bold mb-3 text-emerald-300">
