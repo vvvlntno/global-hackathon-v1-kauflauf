@@ -80,7 +80,6 @@ export default function ItemEditModal({
             onClick={onClose}
           />
 
-          {/* Modal */}
           <motion.div
             className="relative z-10 w-[420px] p-6 rounded-xl bg-white/10 backdrop-blur-md border border-white/20"
             initial={{ scale: 0.95, opacity: 0 }}
@@ -89,7 +88,6 @@ export default function ItemEditModal({
             transition={{ duration: 0.3, ease: 'easeInOut' }}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Header */}
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-mono text-white">Edit Tray</h2>
               <button
@@ -100,9 +98,8 @@ export default function ItemEditModal({
               </button>
             </div>
 
-            {/* Artikel-Auswahl */}
             <label className="block mb-2 text-sm font-mono text-white/80">
-              Artikel auswählen:
+                Select article:
             </label>
             <div className="relative mb-6">
               <select
@@ -114,7 +111,7 @@ export default function ItemEditModal({
                 }
                 className="w-full font-mono text-base bg-gray-900 text-white border border-white/20 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-white/40 appearance-none"
               >
-                <option value="">-- Kein Artikel --</option>
+                <option value="">-- No article --</option>
                 {articles.map((a) => (
                   <option key={a.id} value={a.id}>
                     {a.name}
@@ -122,7 +119,6 @@ export default function ItemEditModal({
                 ))}
               </select>
 
-              {/* kleines Caret Icon */}
               <svg
                 className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-white/60"
                 width="18"
@@ -136,7 +132,6 @@ export default function ItemEditModal({
               </svg>
             </div>
 
-            {/* Action Buttons */}
             <div className="flex justify-end gap-3">
               <button
                 onClick={onClose}

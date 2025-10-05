@@ -12,7 +12,7 @@ interface ContextMenuProps {
   item: DroppedItem | null;
   onEdit: () => void;
   onEnter: () => void;
-  onDelete: () => void; // 🔹 NEU
+  onDelete: () => void;
   onClose: () => void;
 }
 

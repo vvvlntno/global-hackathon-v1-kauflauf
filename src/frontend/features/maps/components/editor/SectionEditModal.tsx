@@ -81,13 +81,11 @@ export default function SectionEditModal({
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        {/* Overlay */}
         <div
           className="absolute inset-0 bg-black/60 backdrop-blur-sm"
           onClick={onClose}
         />
 
-        {/* Modal */}
         <motion.div
           className="relative z-10 w-[420px] p-6 rounded-xl bg-white/10 backdrop-blur-md border border-white/20"
           initial={{ scale: 0.95, opacity: 0 }}
@@ -96,7 +94,6 @@ export default function SectionEditModal({
           transition={{ duration: 0.3, ease: 'easeInOut' }}
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Header */}
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-mono text-white">Edit Section</h2>
             <button
@@ -107,9 +104,8 @@ export default function SectionEditModal({
             </button>
           </div>
 
-          {/* Section-Auswahl Dropdown */}
           <label className="block mb-2 text-sm font-mono text-white/80">
-            Section auswählen:
+            Select section:
           </label>
           <div className="relative mb-6">
             <select
@@ -117,7 +113,7 @@ export default function SectionEditModal({
               onChange={(e) => setName(e.target.value)}
               className="w-full font-mono text-base bg-gray-900 text-white border border-white/20 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-white/40 appearance-none"
             >
-              <option value="">-- Keine Section --</option>
+              <option value="">-- No Section --</option>
               {availableSections.map((s) => (
                 <option key={s} value={s}>
                   {s}
@@ -125,7 +121,6 @@ export default function SectionEditModal({
               ))}
             </select>
 
-            {/* Caret Icon */}
             <svg
               className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-white/60"
               width="18"
