@@ -3,13 +3,17 @@
 import { useEffect, useState } from "react";
 import { useDrag } from "react-dnd";
 import Image from "next/image";
-import { Article } from "./types";
 import { supabase } from "@/lib/supabaseClient";
+import { Article } from "./types";
+
+interface Section {
+  id: string;
+  name: string;
+}
 
 /* 🔹 Draggable Tool Button (Section / Tray) */
 function ToolItem({ type, label }: { type: string; label: string }) {
   const [{ isDragging }, drag] = useDrag(() => ({
-    // ✅ Klare Typentrennung: Sections = "tool", Trays = "tool-tray"
     type: type === "tray" ? "tool-tray" : "tool",
     item: { type },
     collect: (monitor) => ({
@@ -29,7 +33,7 @@ function ToolItem({ type, label }: { type: string; label: string }) {
   );
 }
 
-/* 🔹 Artikelanzeige (kein Drag aktuell, nur visuell) */
+/* 🔹 Artikelanzeige */
 function ArticleItem({ article }: { article: Article }) {
   return (
     <div
@@ -50,6 +54,18 @@ function ArticleItem({ article }: { article: Article }) {
   );
 }
 
+/* 🔹 Section Item */
+function SectionItem({ section }: { section: Section }) {
+  return (
+    <div
+      className="flex items-center gap-2 p-2 rounded-lg mb-2 
+      bg-white/10 hover:bg-white/20 text-white transition cursor-pointer"
+    >
+      <span className="font-mono truncate">{section.name}</span>
+    </div>
+  );
+}
+
 /* 🔹 Main Sidebar */
 export default function ToolSidebar({
   tools = ["section", "tray"],
@@ -59,11 +75,13 @@ export default function ToolSidebar({
   activeSection: string | null;
 }) {
   const [articles, setArticles] = useState<Article[]>([]);
+  const [sections, setSections] = useState<Section[]>([]);
   const labelMap: Record<string, string> = {
     section: "+ Section",
     tray: "+ Tray",
   };
 
+  /* 🔸 Load Articles (wenn eine Section aktiv ist) */
   useEffect(() => {
     const load = async () => {
       if (!activeSection) {
@@ -76,14 +94,41 @@ export default function ToolSidebar({
         .select("*")
         .eq("section", activeSection);
 
-      console.log("📦 Lade Artikel für Section:", activeSection);
-      console.log("📦 Gefundene Artikel:", data);
-
       if (error) console.error(error);
       else setArticles(data || []);
     };
 
     load();
+  }, [activeSection]);
+
+  /* 🔸 Load Sections (wenn man im Root-Modus ist) */
+  useEffect(() => {
+    const loadSections = async () => {
+      if (activeSection) {
+        setSections([]);
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from("articles")
+        .select("section")
+        .not("section", "is", null); // optional, falls mal Artikel ohne Section existieren
+
+      if (error) {
+        console.error(error);
+        return;
+      }
+
+      // 🔹 Nur eindeutige Sections extrahieren
+      const uniqueSections = Array.from(
+        new Set(data.map((a) => a.section))
+      ).map((name) => ({ id: name, name }));
+
+      console.log("📦 Gefundene Sections:", uniqueSections);
+      setSections(uniqueSections);
+    };
+
+    loadSections();
   }, [activeSection]);
 
   return (
@@ -94,10 +139,9 @@ export default function ToolSidebar({
         <ToolItem key={t} type={t} label={labelMap[t] || t} />
       ))}
 
-      {/* ───────────── Divider ───────────── */}
       <div className="my-6 border-t border-white/20"></div>
 
-      {/* 🧾 Artikel */}
+      {/* 🧾 Anzeige abhängig vom Modus */}
       {activeSection ? (
         <>
           <h2 className="font-bold mb-3 text-emerald-300">
@@ -115,7 +159,15 @@ export default function ToolSidebar({
           ))}
         </>
       ) : (
-        <p className="text-sm text-white/50 italic">Keine Section aktiv.</p>
+        <>
+          <h2 className="font-bold mb-3 text-blue-300">Aktive Sections</h2>
+
+          {sections.length === 0 ? (
+            <p className="text-sm text-white/50 italic">Keine Sections vorhanden.</p>
+          ) : (
+            sections.map((s) => <SectionItem key={s.id} section={s} />)
+          )}
+        </>
       )}
     </div>
   );
