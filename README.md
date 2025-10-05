@@ -1,119 +1,87 @@
-# 🚀 ACTA Global Hackathon
+# 🏪 ShopMap Editor — Kauflauf Hackathon MVP
 
-**24 hours to build something impressive.**
+### Hi, I'm Valentino 👋  
+I really love automating stuff, so for this hackathon I decided to build a small MVP as a subpart of a bigger vision.  
 
-## ⏰ Timeline
-
-- **Start**: Oct 4, 2025 at 12:00 CET
-- **End**: Oct 5, 2025 at 12:00 CET
-- **Duration**: 24 hours
-
-## 🏆 Prizes
-
-1. **1st**: One week in Cape Town (flights + hotel)
-2. **2nd**: €300 + fast-tracked interview
-3. **3rd**: Raspberry Pi + fast-tracked interview
-
-## 💡 What to Build
-
-**Option 1: Build anything you wish existed** (open format - truly anything!)
-
-**Option 2: Choose one of these problem statements:**
-
-### 1. Memory Keeper for Grandparents
-Interactive AI conversations that capture grandparents' life memories and turn them into blog posts for family members. Think Duolingo but for preserving family stories and wisdom.
-
-### 2. Graph-Based Learning System
-Transform linear course content (like [MIT's Statistics course](https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/)) into an interactive graph-based learning experience. Organize concepts as nodes/connections to match how the brain actually learns - accelerating comprehension through visualization and non-linear exploration.
-
-### 3. Agent Orchestration Layer
-Build the n8n for AI agents - an orchestration platform for vertical agents to create AI-native companies. Solve context engineering and enable swarm intelligence across agent networks.
-
-**Note**: These are extensive problems - MVPs are perfectly fine and expected!
-
-## 🎯 Rules
-
-- Solo or duo teams
-- Greenfield projects only
-- Any tech stack
-- Must be buildable in 24 hours
-- Read [RULES.md](./RULES.md) for anti-cheating requirements
-
-## 🚀 Quick Start
-
-```bash
-# 1. Clone this repo
-git clone <your-fork-url>
-cd global-hackathon-v1
-
-# 2. Create timestamp (REQUIRED for anti-cheating)
-date > .hackathon-start
-git add .hackathon-start
-git commit -m "Starting hackathon - $(date)"
-git push
-
-# 3. Build your project here
-# 4. Commit regularly (minimum 5 commits)
-```
-
-## 📤 Submission
-
-**Deadline**: Oct 5, 2025 at 12:00 CET
-
-**Submit at**: [https://forms.acta.so/r/wMobdM](https://forms.acta.so/r/wMobdM)
-
-**You need**:
-1. Public GitHub repo URL
-2. 60-second demo video (Loom/YouTube - must be public)
-3. Live demo URL (deployed app)
-4. Your email and name
-
-## ✅ Before Submitting
-
-```bash
-# Run verification
-node verify-submission.js
-```
-
-Check:
-- [ ] GitHub repo is public
-- [ ] 60s video is public and accessible
-- [ ] Live demo works in incognito window
-- [ ] Made 5+ commits during the 24 hours
-- [ ] README updated with project info
-
-## 🎬 Judging
-
-**Top 25 submissions** will be ranked 1-10 on each criterion:
-
-### Craft (1-10)
-Quality of execution, code quality, attention to detail, polish. Does it work smoothly? Is it well-built? A simple feature done exceptionally well scores higher than complex features done poorly.
-
-### Novelty (1-10)
-Originality and innovation. Is this a fresh take? Does it approach the problem differently? Bonus points for ideas that make judges think "why doesn't this exist yet?"
-
-### Utility (1-10)
-Practical usefulness and real-world value. Would people actually use this? Does it solve a genuine problem? Could this become a real product?
-
-### Taste (1-10)
-Design sensibility, user experience, aesthetic choices. Is it intuitive? Does it feel good to use? Great taste shows in the details - from UI design to interaction patterns to copy writing.
-
-**Final scores** are calculated by summing all four dimensions. Highest total wins.
-
-## 💡 Tips
-
-- Start simple, iterate
-- Commit often (proves authenticity)
-- Deploy early (Vercel, Netlify, Railway)
-- Record demo showing actual functionality
-- Read [RULES.md](./RULES.md) to avoid disqualification
-
-## 📞 Support
-
-- **Discord**: [Join](https://discord.gg/9KbH3f5M2a)
-- **Instagram**: [@acta.so](https://instagram.com/acta.so)
-- **Web**: [acta.so/hackathon](https://www.acta.so/hackathon)
+The **big idea** behind the project is to make it **easy to create digital store layouts** — where customers can see where items are located, so that **automated paths** can be generated.  
+Later, this could even be integrated with **robotics for automated shopping**, and also help employees quickly locate specific products inside the store.
 
 ---
 
-**Good luck! 🎉**
+## 💡 Concept
+
+For the hackathon, I focused on **one key part** of the larger concept:  
+### 🗺️ The ShopMap Editor
+
+With it, you can design and manage shop layouts visually, directly in your browser.
+
+Together with my girlfriend, we also created **custom pixel art sprites** to give it a fun and unique visual style ❤️
+
+---
+
+## 🚀 Live Demo
+
+🔗 **Public Link:** [https://global-hackathon-v1-kauflauf.vercel.app/](https://global-hackathon-v1-kauflauf.vercel.app/)
+
+Try it out — no setup needed!
+
+---
+
+## 🧭 How It Works
+
+1. **Enter the App**  
+   You start on the global entry page and can navigate to “Start”.
+
+2. **Demo Shop**  
+   There’s already a demo shop available.  
+   *(Since this is an MVP, only one shop currently exists in the backend — creating a new one won’t persist yet.)*
+
+3. **Edit Shop Info**  
+   You can edit the shop’s name and description directly.
+
+4. **Shop Overview**  
+   Inside, you’ll see the full shop map with its sections.  
+   - Example: The **Meat Section** just got smaller, so let’s resize it.  
+   - Add a **new section** like the freezer area.
+
+5. **Section Editing**  
+   You can open any section and manage its items:
+   - Add new items (e.g., 🥝 *Kiwis* in the fruit section)  
+   - Remove items (e.g., 🍌 *Bananas* — not everyone likes them 😄)  
+   - Exit by clicking the blue background.
+
+6. **Persistence**  
+   When you leave and come back, all changes remain saved thanks to Supabase backend persistence.
+
+---
+
+## ⚙️ Tech Stack
+
+- **Next.js 15 (Turbopack)** — blazing fast builds  
+- **TypeScript** — type-safe development  
+- **Supabase** — backend & database  
+- **Framer Motion** — smooth animations  
+- **TailwindCSS** — clean and modern styling  
+- **Vercel** — deployment and hosting  
+
+---
+
+## 🧩 Future Ideas
+
+- Multiple shop support  
+- User authentication  
+- Better layout management  
+- Pathfinding algorithms  
+- Integration with robotics or automated shopping systems  
+
+---
+
+## ❤️ Credits
+
+- **Development:** Valentino  
+- **Pixel Art & Visual Design:** My girlfriend and me  
+- **Created for:** *Global Hackathon - Kauflauf Project*  
+
+---
+
+> “Build small, dream big — every MVP starts with one good idea.”
